@@ -19,11 +19,7 @@
       --radius-medium: 12px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       width: 100vw;
@@ -84,7 +80,6 @@
       color: var(--color-text-main);
     }
 
-    /* Group 버튼 및 호버 드롭다운 영역 설정 */
     .group-btn-container {
       position: relative;
       display: inline-block;
@@ -126,13 +121,8 @@
       padding: 4px 0;
     }
 
-    .group-hover-dropdown.closed {
-      display: none !important;
-    }
-
-    .group-btn-container:hover .group-hover-dropdown {
-      display: block;
-    }
+    .group-hover-dropdown.closed { display: none !important; }
+    .group-btn-container:hover .group-hover-dropdown { display: block; }
 
     .group-dropdown-item {
       padding: 6px 12px;
@@ -167,10 +157,7 @@
       transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .month-title-btn:hover {
-      background-color: #f1f5f9;
-      color: var(--color-text-main);
-    }
+    .month-title-btn:hover { background-color: #f1f5f9; color: var(--color-text-main); }
 
     .nav-btn {
       background: none;
@@ -223,10 +210,7 @@
 
     .day-cell:hover { background: #f8fafc; }
     .day-cell.is-today { background-color: #f8fafc; }
-    .day-cell.other-month {
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
+    .day-cell.other-month { visibility: hidden !important; pointer-events: none !important; }
     .day-cell.drag-selected { background-color: #e0f2fe !important; }
 
     .normal-header {
@@ -241,12 +225,7 @@
       z-index: 2;
     }
 
-    .date-holiday-wrapper {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      line-height: 1;
-    }
+    .date-holiday-wrapper { display: inline-flex; align-items: center; gap: 5px; line-height: 1; }
 
     .day-number {
       font-size: 12.5px;
@@ -322,41 +301,14 @@
       margin: 1px 0;
     }
 
-    .event-chip.single-day {
-      margin: 1px 3px;
-      border-radius: 4px;
-    }
-
-    .event-chip.multi-day.is-start {
-      margin-left: 3px;
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-
+    .event-chip.single-day { margin: 1px 3px; border-radius: 4px; }
+    .event-chip.multi-day.is-start { margin-left: 3px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
     .event-chip.multi-day.is-middle { border-radius: 0; }
+    .event-chip.multi-day.is-end { margin-right: 3px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
 
-    .event-chip.multi-day.is-end {
-      margin-right: 3px;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
+    .event-group-badge { font-size: 9.5px; font-weight: 700; color: #334155; margin-right: 3px; }
+    .event-time-badge { font-size: 8.5px; opacity: 0.8; margin-left: 3px; }
 
-    .event-group-badge {
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #334155;
-      margin-right: 3px;
-      background: transparent;
-      padding: 0;
-    }
-
-    .event-time-badge {
-      font-size: 8.5px;
-      opacity: 0.8;
-      margin-left: 3px;
-    }
-
-    /* 일정 모달 */
     .modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -381,44 +333,12 @@
       gap: 14px;
     }
 
-    .img-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .img-modal-header { display: flex; justify-content: space-between; align-items: center; }
+    .img-modal-date { font-size: 14px; font-weight: 600; color: #475569; }
+    .img-modal-close { border: none; background: transparent; color: #94a3b8; font-size: 16px; cursor: pointer; }
 
-    .img-modal-date {
-      font-size: 14px;
-      font-weight: 600;
-      color: #475569;
-    }
-
-    .img-modal-close {
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .input-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid #f1f5f9;
-      padding-bottom: 4px;
-    }
-
-    .img-modal-input {
-      flex: 1;
-      border: none;
-      font-size: 13px;
-      font-family: inherit;
-      outline: none;
-      color: var(--color-text-main);
-      background: transparent;
-    }
-
+    .input-row { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; }
+    .img-modal-input { flex: 1; border: none; font-size: 13px; font-family: inherit; outline: none; color: var(--color-text-main); background: transparent; }
     .img-modal-input::placeholder { color: #cbd5e1; }
 
     .color-picker-btn {
@@ -430,41 +350,14 @@
       box-shadow: 0 0 0 1px rgba(0,0,0,0.12);
       flex-shrink: 0;
       overflow: hidden;
-      transition: transform 0.1s ease;
       display: inline-block;
     }
 
-    .color-picker-btn:hover { transform: scale(1.1); }
+    .color-picker-btn input[type="color"] { position: absolute; top: -10px; left: -10px; width: 40px; height: 40px; opacity: 0; cursor: pointer; }
 
-    .color-picker-btn input[type="color"] {
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      width: 40px;
-      height: 40px;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .modal-select-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: #64748b;
-      position: relative;
-    }
-
-    .group-label-box {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .custom-select-wrapper {
-      position: relative;
-      width: 160px;
-    }
+    .modal-select-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #64748b; }
+    .group-label-box { display: flex; align-items: center; gap: 6px; }
+    .custom-select-wrapper { position: relative; width: 160px; }
 
     .custom-select-btn {
       width: 100%;
@@ -478,15 +371,12 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      outline: none;
     }
 
     .custom-dropdown {
       display: none;
       position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
+      top: 100%; left: 0; right: 0;
       margin-top: 4px;
       background: white;
       border: 1px solid #e2e8f0;
@@ -499,170 +389,29 @@
 
     .custom-dropdown.active { display: block; }
 
-    .group-option-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 10px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
+    .group-option-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; font-size: 12px; cursor: pointer; }
     .group-option-item:hover { background: #f1f5f9; }
+    .group-name-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 6px; }
 
-    .group-name-label {
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .group-del-btn {
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 11px;
-      cursor: pointer;
-      padding: 2px 4px;
-    }
-
+    .group-del-btn { border: none; background: transparent; color: #94a3b8; font-size: 11px; cursor: pointer; padding: 2px 4px; }
     .group-del-btn:hover { color: #f87171; }
 
-    .group-add-option {
-      padding: 8px 10px;
-      font-size: 12px;
-      color: #475569;
-      font-weight: 600;
-      cursor: pointer;
-      border-top: 1px solid #f1f5f9;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      background: #f8fafc;
-      transition: background 0.15s;
-      box-sizing: border-box;
-    }
+    .group-add-option { padding: 8px 10px; font-size: 12px; color: #475569; font-weight: 600; cursor: pointer; border-top: 1px solid #f1f5f9; text-align: center; }
+    .group-inline-input-box { display: none; padding: 6px 8px; border-top: 1px solid #f1f5f9; background: #ffffff; gap: 6px; align-items: center; }
+    .group-inline-input { flex: 1; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 6px; font-size: 11.5px; outline: none; }
+    .group-inline-btn { background: #e2e8f0; border: none; border-radius: 4px; color: #475569; font-size: 11px; font-weight: 700; padding: 4px 8px; cursor: pointer; }
 
-    .group-add-option:hover { background: #f1f5f9; }
-
-    .group-inline-input-box {
-      display: none;
-      padding: 6px 8px;
-      border-top: 1px solid #f1f5f9;
-      background: #ffffff;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .group-inline-input {
-      flex: 1;
-      border: 1px solid #cbd5e1;
-      border-radius: 4px;
-      padding: 4px 6px;
-      font-size: 11.5px;
-      outline: none;
-      color: var(--color-text-main);
-      width: 100%;
-    }
-
-    .group-inline-btn {
-      background: #e2e8f0;
-      border: none;
-      border-radius: 4px;
-      color: #475569;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 8px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s ease;
-    }
-
-    .group-inline-btn:hover { background: #cbd5e1; }
-
-    .img-modal-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 2px;
-    }
-
-    .btn-delete-text {
-      background: none;
-      border: none;
-      color: #f87171;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: none;
-    }
-
-    .btn-add-text {
-      background: none;
-      border: none;
-      color: #cbd5e1;
-      font-size: 13.5px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: color 0.15s ease;
-      margin-left: auto;
-    }
-
+    .img-modal-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+    .btn-delete-text { background: none; border: none; color: #f87171; font-size: 13px; font-weight: 600; cursor: pointer; display: none; }
+    .btn-add-text { background: none; border: none; color: #cbd5e1; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-left: auto; }
     .btn-add-text.active { color: #64748b; }
 
-    .ym-modal {
-      background: var(--color-white);
-      width: 280px;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .ym-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .ym-year-nav {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .ym-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .ym-month-btn {
-      padding: 10px 0;
-      border: none;
-      background: #f8fafc;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #475569;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .ym-month-btn:hover { background: #f1f5f9; }
-
-    .ym-month-btn.current {
-      background: #e0f2fe !important;
-      color: #0369a1 !important;
-      font-weight: 700;
-    }
+    .ym-modal { background: var(--color-white); width: 280px; border-radius: 18px; padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12); display: flex; flex-direction: column; gap: 16px; }
+    .ym-header { display: flex; justify-content: space-between; align-items: center; }
+    .ym-year-nav { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 700; }
+    .ym-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .ym-month-btn { padding: 10px 0; border: none; background: #f8fafc; border-radius: 8px; font-size: 13px; font-weight: 600; color: #475569; cursor: pointer; }
+    .ym-month-btn.current { background: #e0f2fe !important; color: #0369a1 !important; font-weight: 700; }
   </style>
 </head>
 <body>
@@ -698,7 +447,6 @@
     </div>
   </div>
 
-  <!-- 일정 등록 / 수정 모달 -->
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="img-modal" onclick="event.stopPropagation()">
       <div class="img-modal-header">
@@ -708,7 +456,7 @@
 
       <div class="input-row">
         <input type="text" class="img-modal-input" id="taskTitleInput" placeholder="일정 입력" oninput="toggleAddBtnState()" onkeydown="handleKeyDown(event)" />
-        <div class="color-picker-btn" id="colorPickerVisualBtn" style="background-color: #f87171;" title="개별 색상 변경">
+        <div class="color-picker-btn" id="colorPickerVisualBtn" style="background-color: #f87171;">
           <input type="color" id="customColorInput" value="#f87171" onchange="handleColorPickerChange(this)" />
         </div>
       </div>
@@ -716,7 +464,7 @@
       <div class="modal-select-row">
         <div class="group-label-box">
           <span>그룹 지정</span>
-          <div class="color-picker-btn" id="groupColorPickerWrap" style="display: none; width: 17px; height: 17px;" title="그룹 기본 색상 설정">
+          <div class="color-picker-btn" id="groupColorPickerWrap" style="display: none; width: 17px; height: 17px;">
             <input type="color" id="groupColorInput" onchange="handleGroupColorPickerChange(this)" />
           </div>
         </div>
@@ -744,7 +492,6 @@
     </div>
   </div>
 
-  <!-- 년/월 Picker 모달 -->
   <div class="modal-backdrop" id="ymModalBackdrop">
     <div class="ym-modal" onclick="event.stopPropagation()">
       <div class="ym-header">
@@ -770,12 +517,9 @@
     let selectedColor = '#f87171';
     let selectedGroup = '';
     let editingScheduleId = null;
-    let editingGroupName = null;
 
-    let groupClickTimer = null;
-    let selectedGroupFilter = 'ALL'; // 확정 선택된 그룹 필터
-
-    let initialModalState = { title: '', color: '', group: '' };
+    let selectedGroupFilter = 'ALL';
+    let schedulesCache = [];
 
     let isDragging = false;
     let dragStartDate = null;
@@ -802,33 +546,66 @@
       return `${y}-${m}-${d}`;
     }
 
-    function getSchedules() {
-      const data = localStorage.getItem('clean_cal_schedules');
-      return data ? JSON.parse(data) : [];
+    async function fetchSchedulesFromNotion() {
+      try {
+        const res = await fetch('/api/notion');
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          console.error("Notion API 오류:", data.error || data);
+          alert(`노션 연동 오류:\n${data.error || '데이터를 불러오지 못했습니다.'}\n\n[체크리스트]\n1. Vercel 환경변수(NOTION_KEY, NOTION_DATABASE_ID) 설정 후 Redeploy 하셨나요?\n2. 노션 DB 속성이 Name(제목), Date(날짜), Category(선택) 인가요?`);
+          return;
+        }
+
+        if (!data.results) return;
+
+        schedulesCache = data.results.map(page => {
+          const props = page.properties;
+          const rawTitle = props.Name?.title?.[0]?.plain_text || '제목 없음';
+          const parsed = parseInputText(rawTitle);
+
+          const dateProp = props.Date?.date;
+          let startDate = '';
+          let endDate = '';
+          if (dateProp) {
+            if (dateProp.start) startDate = dateProp.start.split('T')[0];
+            if (dateProp.end) endDate = dateProp.end.split('T')[0];
+            else endDate = startDate;
+          }
+
+          const group = props.Category?.select?.name || '';
+
+          return {
+            id: page.id,
+            title: parsed.title,
+            displayTime: parsed.displayTime,
+            startDate: startDate,
+            endDate: endDate,
+            group: group,
+            color: getGroupColor(group)
+          };
+        });
+
+        renderCalendar();
+      } catch (e) {
+        console.error("통신 오류:", e);
+        alert(`네트워크 통신 오류: ${e.message}`);
+      }
     }
 
-    function saveSchedules(list) {
-      localStorage.setItem('clean_cal_schedules', JSON.stringify(list));
-    }
+    function getSchedules() { return schedulesCache; }
 
     function getCustomGroups() {
       const data = localStorage.getItem('clean_cal_groups');
-      return data ? JSON.parse(data) : [];
+      return data ? JSON.parse(data) : ['yellow', 'red'];
     }
 
-    function saveCustomGroups(list) {
-      localStorage.setItem('clean_cal_groups', JSON.stringify(list));
-    }
-
+    function saveCustomGroups(list) { localStorage.setItem('clean_cal_groups', JSON.stringify(list)); }
     function getGroupColors() {
       const data = localStorage.getItem('clean_cal_group_colors');
-      return data ? JSON.parse(data) : {};
+      return data ? JSON.parse(data) : { 'yellow': '#fdecc8', 'red': '#fde2e2' };
     }
-
-    function saveGroupColors(obj) {
-      localStorage.setItem('clean_cal_group_colors', JSON.stringify(obj));
-    }
-
+    function saveGroupColors(obj) { localStorage.setItem('clean_cal_group_colors', JSON.stringify(obj)); }
     function getGroupColor(gName) {
       if (!gName) return '#f87171';
       const colors = getGroupColors();
@@ -853,12 +630,9 @@
           if (p.type === 'day') d = p.value.replace('일', '').trim();
         }
         return `음력 ${m}.${d}`;
-      } catch (e) {
-        return '';
-      }
+      } catch (e) { return ''; }
     }
 
-    /* 그룹 필터 초기화 (전체 보기) */
     function resetGroupFilter(e) {
       if (e) e.stopPropagation();
       selectedGroupFilter = 'ALL';
@@ -866,7 +640,6 @@
       renderCalendar();
     }
 
-    /* 마우스가 그룹 버튼 영역을 벗어났을 때 복원 */
     function restoreGroupFilter() {
       const dropdown = document.getElementById('groupHoverDropdown');
       if (dropdown) dropdown.classList.remove('closed');
@@ -906,41 +679,22 @@
         cell.className = 'day-cell';
         cell.dataset.date = dateStr;
 
-        if (dateStr === todayStr) {
-          cell.classList.add('is-today');
-        }
+        if (dateStr === todayStr) cell.classList.add('is-today');
 
         cell.addEventListener('mousedown', () => handleMouseDown(dateStr));
         cell.addEventListener('mouseenter', () => handleMouseEnter(dateStr));
 
         const holidayName = koreanHolidays[dateStr];
-        const isSunday = (dayOfWeek === 6);
-
-        if (isSunday || holidayName) {
-          cell.classList.add('is-red');
-        }
+        if (dayOfWeek === 6 || holidayName) cell.classList.add('is-red');
 
         const normalHeader = document.createElement('div');
         normalHeader.className = 'normal-header';
-
-        let numberContent = `<div class="date-holiday-wrapper">`;
-        numberContent += `<span class="day-number">${d}</span>`;
-        if (holidayName) {
-          numberContent += `<span class="holiday-label">${holidayName}</span>`;
-        }
-        numberContent += `</div>`;
-
-        normalHeader.innerHTML = numberContent;
+        normalHeader.innerHTML = `<div class="date-holiday-wrapper"><span class="day-number">${d}</span>${holidayName ? `<span class="holiday-label">${holidayName}</span>` : ''}</div>`;
 
         const lunarStr = getLunarDateStr(currentYear, currentMonth, d);
         const hoverHeader = document.createElement('div');
         hoverHeader.className = 'hover-header';
-
-        const lunarSpan = document.createElement('span');
-        lunarSpan.className = 'lunar-label';
-        lunarSpan.innerText = lunarStr;
-
-        hoverHeader.appendChild(lunarSpan);
+        hoverHeader.innerHTML = `<span class="lunar-label">${lunarStr}</span>`;
 
         cell.appendChild(normalHeader);
         cell.appendChild(hoverHeader);
@@ -949,10 +703,7 @@
         eventsBox.className = 'events-wrapper';
 
         let dayEvents = schedules.filter(s => dateStr >= s.startDate && dateStr <= (s.endDate || s.startDate));
-
-        if (activeFilter !== 'ALL') {
-          dayEvents = dayEvents.filter(s => s.group === activeFilter);
-        }
+        if (activeFilter !== 'ALL') dayEvents = dayEvents.filter(s => s.group === activeFilter);
 
         dayEvents.forEach(s => {
           const chip = document.createElement('div');
@@ -961,9 +712,7 @@
           const isEnd = dateStr === s.endDate;
 
           chip.className = 'event-chip';
-
           let chipColor = s.color || getGroupColor(s.group);
-
           chip.style.backgroundColor = hexToRgba(chipColor, 0.35);
           chip.style.color = '#1e293b';
 
@@ -1005,36 +754,23 @@
       }
     }
 
-    /* 호버 목록 구성 (순수 생성된 그룹 목록만 표시) */
     function buildGroupHoverList() {
       const dropdown = document.getElementById('groupHoverDropdown');
       if (dropdown) dropdown.classList.remove('closed');
-
       const list = document.getElementById('groupHoverList');
       if (!list) return;
       list.innerHTML = '';
 
       const groups = getCustomGroups();
-      if (groups.length === 0) return;
-
       groups.forEach(gName => {
         const item = document.createElement('div');
         item.className = 'group-dropdown-item' + (selectedGroupFilter === gName ? ' selected' : '');
-        
         const gColor = getGroupColor(gName);
-
-        item.innerHTML = `
-          <span class="group-circle-icon" style="background-color: ${gColor};"></span>
-          <span>${gName}</span>
-        `;
-
-        // 호버 시: 해당 그룹 일정 미리보기
+        item.innerHTML = `<span class="group-circle-icon" style="background-color: ${gColor};"></span><span>${gName}</span>`;
         item.onmouseenter = () => {
           document.getElementById('groupFilterBtn').innerText = gName;
           renderCalendar(gName);
         };
-
-        // 클릭 시: 해당 그룹 선택 확정 및 드롭다운 창 닫기
         item.onclick = (e) => {
           e.stopPropagation();
           selectedGroupFilter = gName;
@@ -1042,26 +778,8 @@
           renderCalendar();
           if (dropdown) dropdown.classList.add('closed');
         };
-
         list.appendChild(item);
       });
-    }
-
-    function markModalInitialState(title, color, group) {
-      initialModalState = {
-        title: title || '',
-        color: color || '',
-        group: group || ''
-      };
-    }
-
-    function isModalDirty() {
-      const currentTitle = document.getElementById('taskTitleInput').value.trim();
-      return (
-        currentTitle !== initialModalState.title ||
-        selectedColor !== initialModalState.color ||
-        selectedGroup !== initialModalState.group
-      );
     }
 
     function handleMouseDown(dateStr) {
@@ -1094,26 +812,21 @@
       if (!dragStartDate || !dragEndDate) return;
       const start = dragStartDate < dragEndDate ? dragStartDate : dragEndDate;
       const end = dragStartDate < dragEndDate ? dragEndDate : dragStartDate;
-
       document.querySelectorAll('.day-cell[data-date]').forEach(cell => {
         const d = cell.dataset.date;
-        if (d >= start && d <= end) {
-          cell.classList.add('drag-selected');
-        }
+        if (d >= start && d <= end) cell.classList.add('drag-selected');
       });
     }
 
     function clearDragHighlight() {
-      document.querySelectorAll('.day-cell.drag-selected').forEach(cell => {
-        cell.classList.remove('drag-selected');
-      });
+      document.querySelectorAll('.day-cell.drag-selected').forEach(cell => cell.classList.remove('drag-selected'));
     }
 
     function changeMonth(delta) {
       currentMonth += delta;
       if (currentMonth < 0) { currentMonth = 11; currentYear--; }
       else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-      renderCalendar();
+      fetchSchedulesFromNotion();
     }
 
     function openQuickAddModal(startStr, endStr) {
@@ -1123,16 +836,10 @@
 
       const sArr = startStr.split('-');
       const eArr = endStr.split('-');
-
-      if (startStr === endStr) {
-        document.getElementById('modalDateText').innerText = `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)}`;
-      } else {
-        document.getElementById('modalDateText').innerText = `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)} ~ ${parseInt(eArr[1], 10)}/${parseInt(eArr[2], 10)}`;
-      }
+      document.getElementById('modalDateText').innerText = (startStr === endStr) ? `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)}` : `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)} ~ ${parseInt(eArr[1], 10)}/${parseInt(eArr[2], 10)}`;
 
       const input = document.getElementById('taskTitleInput');
       input.value = '';
-
       selectedGroup = '';
       updateGroupSelectUI();
 
@@ -1142,8 +849,6 @@
 
       document.getElementById('btnDelete').style.display = 'none';
       document.getElementById('btnAdd').innerText = '추가';
-
-      markModalInitialState('', selectedColor, selectedGroup);
 
       toggleAddBtnState();
       modalBackdrop.classList.add('active');
@@ -1157,20 +862,13 @@
 
       const sArr = selectedStartDateStr.split('-');
       const eArr = selectedEndDateStr.split('-');
-
-      if (selectedStartDateStr === selectedEndDateStr) {
-        document.getElementById('modalDateText').innerText = `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)}`;
-      } else {
-        document.getElementById('modalDateText').innerText = `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)} ~ ${parseInt(eArr[1], 10)}/${parseInt(eArr[2], 10)}`;
-      }
+      document.getElementById('modalDateText').innerText = (selectedStartDateStr === selectedEndDateStr) ? `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)}` : `${parseInt(sArr[1], 10)}/${parseInt(sArr[2], 10)} ~ ${parseInt(eArr[1], 10)}/${parseInt(eArr[2], 10)}`;
 
       const input = document.getElementById('taskTitleInput');
-      const initialTitleVal = schedule.title + (schedule.displayTime ? ` ${schedule.displayTime}` : '');
-      input.value = initialTitleVal;
+      input.value = schedule.title + (schedule.displayTime ? ` ${schedule.displayTime}` : '');
 
       selectedGroup = schedule.group || '';
       selectedColor = schedule.color || getGroupColor(selectedGroup);
-
       updateGroupSelectUI();
 
       document.getElementById('colorPickerVisualBtn').style.backgroundColor = selectedColor;
@@ -1179,32 +877,12 @@
       document.getElementById('btnDelete').style.display = 'block';
       document.getElementById('btnAdd').innerText = '수정';
 
-      markModalInitialState(initialTitleVal, selectedColor, selectedGroup);
-
       toggleAddBtnState();
       modalBackdrop.classList.add('active');
       setTimeout(() => input.focus(), 50);
     }
 
     function closeModal() {
-      const newGroupVal = document.getElementById('newGroupInput')?.value.trim();
-      if (newGroupVal) {
-        submitNewGroup();
-      }
-
-      const editGroupInput = document.getElementById('editGroupInput');
-      if (editGroupInput && editingGroupName) {
-        saveEditedGroupName(null, editingGroupName);
-      }
-
-      if (isModalDirty()) {
-        const val = document.getElementById('taskTitleInput').value.trim();
-        if (val) {
-          saveSchedule();
-          return;
-        }
-      }
-
       modalBackdrop.classList.remove('active');
       closeGroupDropdown();
     }
@@ -1227,284 +905,212 @@
       const colors = getGroupColors();
       colors[selectedGroup] = newColor;
       saveGroupColors(colors);
-
       document.getElementById('groupColorPickerWrap').style.backgroundColor = newColor;
-
       selectedColor = newColor;
       document.getElementById('colorPickerVisualBtn').style.backgroundColor = selectedColor;
-      document.getElementById('customColorInput').value = selectedColor;
     }
 
-    function handleKeyDown(e) {
-      if (e.key === 'Enter') saveSchedule();
-    }
+    function handleKeyDown(e) { if (e.key === 'Enter') saveSchedule(); }
 
     function parseInputText(text) {
       let title = text.trim();
       let displayTime = '';
-
       const timeRegex = /(오전|아침|오후|저녁|밤)?\s*(\d{1,2})\s*시/;
       const timeMatch = title.match(timeRegex);
       if (timeMatch) {
         let period = timeMatch[1] || '';
         let hour = parseInt(timeMatch[2], 10);
         let isPm = (period === '오후' || period === '저녁' || period === '밤');
-
         if (isPm && hour < 12) hour += 12;
         if ((period === '오전' || period === '아침') && hour === 12) hour = 0;
-
         const ampmStr = hour >= 12 ? 'pm' : 'am';
         const displayHour = hour % 12 === 0 ? 12 : hour % 12;
         displayTime = `${displayHour}${ampmStr}`;
-
         title = title.replace(timeRegex, '').trim();
       }
-
       return { title: title || text, displayTime };
     }
 
-    function saveSchedule() {
+    async function saveSchedule() {
       const rawText = document.getElementById('taskTitleInput').value.trim();
       if (!rawText || !selectedStartDateStr) return;
 
       const parsed = parseInputText(rawText);
-      const schedules = getSchedules();
 
-      if (editingScheduleId) {
-        const idx = schedules.findIndex(s => s.id === editingScheduleId);
-        if (idx !== -1) {
-          schedules[idx] = {
-            ...schedules[idx],
-            title: parsed.title,
-            displayTime: parsed.displayTime,
-            group: selectedGroup,
-            color: selectedColor
-          };
+      try {
+        let res;
+        if (editingScheduleId) {
+          res = await fetch('/api/notion', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: editingScheduleId,
+              title: parsed.title,
+              startDate: selectedStartDateStr,
+              endDate: selectedEndDateStr,
+              displayTime: parsed.displayTime,
+              group: selectedGroup
+            })
+          });
+        } else {
+          res = await fetch('/api/notion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title: parsed.title,
+              startDate: selectedStartDateStr,
+              endDate: selectedEndDateStr,
+              displayTime: parsed.displayTime,
+              group: selectedGroup
+            })
+          });
         }
-      } else {
-        schedules.push({
-          id: Date.now(),
-          title: parsed.title,
-          startDate: selectedStartDateStr,
-          endDate: selectedEndDateStr,
-          displayTime: parsed.displayTime,
-          group: selectedGroup,
-          color: selectedColor
-        });
-      }
 
-      saveSchedules(schedules);
-      modalBackdrop.classList.remove('active');
-      closeGroupDropdown();
-      renderCalendar();
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          alert(`일정 저장 실패:\n${data.error || '오류가 발생했습니다.'}`);
+          return;
+        }
+
+        closeModal();
+        await fetchSchedulesFromNotion();
+      } catch (err) {
+        alert(`저장 중 통신 오류 발생: ${err.message}`);
+      }
     }
 
-    function deleteCurrentSchedule() {
+    async function deleteCurrentSchedule() {
       if (!editingScheduleId) return;
-      let schedules = getSchedules();
-      schedules = schedules.filter(s => s.id !== editingScheduleId);
-      saveSchedules(schedules);
-      modalBackdrop.classList.remove('active');
-      closeGroupDropdown();
-      renderCalendar();
+      try {
+        const res = await fetch('/api/notion', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingScheduleId })
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          alert(`일정 삭제 실패:\n${data.error || '오류가 발생했습니다.'}`);
+          return;
+        }
+        closeModal();
+        await fetchSchedulesFromNotion();
+      } catch (err) {
+        alert(`삭제 중 통신 오류 발생: ${err.message}`);
+      }
     }
 
     function toggleGroupDropdown(e) {
       e.stopPropagation();
       const dropdown = document.getElementById('groupDropdown');
-      if (dropdown.classList.contains('active')) {
-        closeGroupDropdown();
-      } else {
-        renderGroupOptions();
-        dropdown.classList.add('active');
-      }
+      if (dropdown.classList.contains('active')) closeGroupDropdown();
+      else { renderGroupOptions(); dropdown.classList.add('active'); }
     }
 
     function closeGroupDropdown() {
       document.getElementById('groupDropdown').classList.remove('active');
-      hideInlineInput();
     }
 
     function updateGroupSelectUI() {
       document.getElementById('selectedGroupText').innerText = selectedGroup ? selectedGroup : '그룹 없음';
-
       const groupColorWrap = document.getElementById('groupColorPickerWrap');
-      const groupColorInput = document.getElementById('groupColorInput');
-
       if (selectedGroup) {
         groupColorWrap.style.display = 'inline-block';
-        const gColor = getGroupColor(selectedGroup);
-        groupColorWrap.style.backgroundColor = gColor;
-        groupColorInput.value = gColor;
-      } else {
-        groupColorWrap.style.display = 'none';
-      }
+        groupColorWrap.style.backgroundColor = getGroupColor(selectedGroup);
+      } else groupColorWrap.style.display = 'none';
     }
 
     function onSelectGroup(gName) {
       selectedGroup = gName;
       if (selectedGroup) {
-        const gColor = getGroupColor(selectedGroup);
-        selectedColor = gColor;
+        selectedColor = getGroupColor(selectedGroup);
         document.getElementById('colorPickerVisualBtn').style.backgroundColor = selectedColor;
-        document.getElementById('customColorInput').value = selectedColor;
       }
       updateGroupSelectUI();
       closeGroupDropdown();
     }
 
-    function handleGroupItemClick(e, gName) {
-      e.stopPropagation();
-      if (groupClickTimer) {
-        clearTimeout(groupClickTimer);
-        groupClickTimer = null;
-        editingGroupName = gName;
-        renderGroupOptions();
-      } else {
-        groupClickTimer = setTimeout(() => {
-          groupClickTimer = null;
-          onSelectGroup(gName);
-        }, 220);
-      }
-    }
-
     function renderGroupOptions() {
       const optionList = document.getElementById('groupOptionList');
       optionList.innerHTML = '';
-
-      const noneDiv = document.createElement('div');
-      noneDiv.className = 'group-option-item';
-      noneDiv.innerHTML = `<span class="group-name-label">그룹 없음</span>`;
-      noneDiv.onclick = (e) => {
-        e.stopPropagation();
-        onSelectGroup('');
-      };
-      optionList.appendChild(noneDiv);
-
       const groups = getCustomGroups();
+
+      const defaultNone = document.createElement('div');
+      defaultNone.className = 'group-option-item';
+      defaultNone.innerHTML = `<span class="group-name-label">그룹 없음</span>`;
+      defaultNone.onclick = (e) => { e.stopPropagation(); onSelectGroup(''); };
+      optionList.appendChild(defaultNone);
+
       groups.forEach(gName => {
         const item = document.createElement('div');
         item.className = 'group-option-item';
-
-        if (editingGroupName === gName) {
-          item.style.padding = '4px 8px';
-          item.innerHTML = `
-            <input type="text" id="editGroupInput" class="group-inline-input" value="${gName}" style="margin-right:4px;" />
-            <button class="group-inline-btn" onclick="saveEditedGroupName(event, '${gName}')">저장</button>
-          `;
-          setTimeout(() => {
-            const input = document.getElementById('editGroupInput');
-            if (input) input.focus();
-          }, 50);
-        } else {
-          const label = document.createElement('span');
-          label.className = 'group-name-label';
-          label.innerText = gName;
-          label.onclick = (e) => handleGroupItemClick(e, gName);
-
-          const delBtn = document.createElement('button');
-          delBtn.className = 'group-del-btn';
-          delBtn.innerText = '✕';
-          delBtn.onclick = (e) => {
-            e.stopPropagation();
-            deleteGroup(gName);
-          };
-
-          item.appendChild(label);
-          item.appendChild(delBtn);
-        }
-
+        const gColor = getGroupColor(gName);
+        item.innerHTML = `
+          <span class="group-circle-icon" style="background-color: ${gColor};"></span>
+          <span class="group-name-label">${gName}</span>
+          <button type="button" class="group-del-btn" onclick="deleteGroup(event, '${gName}')">✕</button>
+        `;
+        item.onclick = (e) => { e.stopPropagation(); onSelectGroup(gName); };
         optionList.appendChild(item);
       });
     }
 
     function showInlineInput(e) {
-      e.stopPropagation();
+      if (e) e.stopPropagation();
       document.getElementById('groupAddOptionBtn').style.display = 'none';
-      const inputBox = document.getElementById('groupInlineInputBox');
-      inputBox.style.display = 'flex';
+      const box = document.getElementById('groupInlineInputBox');
+      box.style.display = 'flex';
       const input = document.getElementById('newGroupInput');
       input.value = '';
       setTimeout(() => input.focus(), 50);
     }
 
-    function hideInlineInput() {
-      document.getElementById('groupAddOptionBtn').style.display = 'flex';
-      document.getElementById('groupInlineInputBox').style.display = 'none';
-      editingGroupName = null;
+    function handleGroupInputKeyDown(e) {
+      if (e.key === 'Enter') submitNewGroup(e);
     }
 
     function submitNewGroup(e) {
       if (e) e.stopPropagation();
       const input = document.getElementById('newGroupInput');
-      const val = input ? input.value.trim() : '';
-      if (val) {
-        const groups = getCustomGroups();
-        if (!groups.includes(val)) {
-          groups.push(val);
-          saveCustomGroups(groups);
+      const name = input.value.trim();
+      if (!name) return;
 
-          const colors = getGroupColors();
-          if (!colors[val]) {
-            colors[val] = '#f87171';
-            saveGroupColors(colors);
-          }
-          onSelectGroup(val);
-        }
-      }
-      hideInlineInput();
-    }
+      const groups = getCustomGroups();
+      if (!groups.includes(name)) {
+        groups.push(name);
+        saveCustomGroups(groups);
 
-    function handleGroupInputKeyDown(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        submitNewGroup(e);
-      }
-    }
-
-    function saveEditedGroupName(e, oldName) {
-      if (e) e.stopPropagation();
-      const input = document.getElementById('editGroupInput');
-      if (!input) return;
-      const newName = input.value.trim();
-
-      if (newName && newName !== oldName) {
-        let groups = getCustomGroups();
-        const idx = groups.indexOf(oldName);
-        if (idx !== -1) {
-          groups[idx] = newName;
-          saveCustomGroups(groups);
-
-          const colors = getGroupColors();
-          colors[newName] = colors[oldName] || '#f87171';
-          delete colors[oldName];
+        const colors = getGroupColors();
+        if (!colors[name]) {
+          colors[name] = '#f87171';
           saveGroupColors(colors);
-
-          let schedules = getSchedules();
-          schedules.forEach(s => {
-            if (s.group === oldName) s.group = newName;
-          });
-          saveSchedules(schedules);
-
-          if (selectedGroup === oldName) selectedGroup = newName;
-          updateGroupSelectUI();
-          renderCalendar();
         }
       }
-      editingGroupName = null;
-      renderGroupOptions();
+
+      document.getElementById('groupInlineInputBox').style.display = 'none';
+      document.getElementById('groupAddOptionBtn').style.display = 'block';
+
+      onSelectGroup(name);
     }
 
-    function deleteGroup(gName) {
-      let groups = getCustomGroups();
-      groups = groups.filter(g => g !== gName);
+    function deleteGroup(e, gName) {
+      e.stopPropagation();
+      let groups = getCustomGroups().filter(g => g !== gName);
       saveCustomGroups(groups);
+
+      let colors = getGroupColors();
+      delete colors[gName];
+      saveGroupColors(colors);
 
       if (selectedGroup === gName) {
         selectedGroup = '';
         updateGroupSelectUI();
       }
+      if (selectedGroupFilter === gName) {
+        selectedGroupFilter = 'ALL';
+        document.getElementById('groupFilterBtn').innerText = 'Group';
+      }
       renderGroupOptions();
+      renderCalendar();
     }
 
     function openYearMonthModal() {
@@ -1513,66 +1119,29 @@
       ymModalBackdrop.classList.add('active');
     }
 
-    function closeYmModal() {
-      ymModalBackdrop.classList.remove('active');
-    }
-
-    function changePickerYear(delta) {
-      pickerYear += delta;
-      renderPickerModal();
-    }
+    function closeYmModal() { ymModalBackdrop.classList.remove('active'); }
+    function changePickerYear(delta) { pickerYear += delta; renderPickerModal(); }
 
     function renderPickerModal() {
       document.getElementById('pickerYearText').innerText = `${pickerYear}년`;
       const grid = document.getElementById('ymMonthGrid');
       grid.innerHTML = '';
-
       for (let m = 0; m < 12; m++) {
         const btn = document.createElement('button');
         btn.className = 'ym-month-btn';
-        if (pickerYear === currentYear && m === currentMonth) {
-          btn.classList.add('current');
-        }
+        if (pickerYear === currentYear && m === currentMonth) btn.classList.add('current');
         btn.innerText = `${m + 1}월`;
         btn.onclick = () => {
           currentYear = pickerYear;
           currentMonth = m;
-          renderCalendar();
+          fetchSchedulesFromNotion();
           closeYmModal();
         };
         grid.appendChild(btn);
       }
     }
 
-    /* 화면 외부 클릭 이벤트 처리 */
-    document.addEventListener('click', (e) => {
-      const dropdown = document.getElementById('groupDropdown');
-      const wrapper = document.querySelector('.custom-select-wrapper');
-      if (dropdown && dropdown.classList.contains('active')) {
-        if (!wrapper.contains(e.target)) {
-          closeGroupDropdown();
-        }
-      }
-
-      // 그룹이 고정 선택된 상태에서 외부 클릭 시 전체 상태로 초기화
-      const groupBtnContainer = document.getElementById('groupBtnContainer');
-      if (selectedGroupFilter !== 'ALL' && groupBtnContainer && !groupBtnContainer.contains(e.target)) {
-        resetGroupFilter();
-      }
-    });
-
-    modalBackdrop.addEventListener('click', function(e) {
-      const dropdown = document.getElementById('groupDropdown');
-      if (dropdown && dropdown.classList.contains('active')) {
-        closeGroupDropdown();
-        return;
-      }
-      if (e.target === this) closeModal();
-    });
-
-    ymModalBackdrop.addEventListener('click', function(e) { if (e.target === this) closeYmModal(); });
-
-    renderCalendar();
+    fetchSchedulesFromNotion();
   </script>
 </body>
 </html>
