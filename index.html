@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notion Widget</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #37352f;
+      --border-color: #e9e9e8;
+      --card-bg: #f7f6f3;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 12px;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+    .container { max-width: 100%; margin: 0 auto; }
+    .form-card {
+      background: var(--card-bg);
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .row { display: flex; gap: 6px; }
+    input, select, button {
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    input[type="text"] { flex: 1; }
+    input[type="date"], input[type="time"] { flex: 1; }
+    button {
+      background: #2eaadc;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #0082b6; }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .list { list-style: none; padding: 0; margin: 0; }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 4px;
+    }
+    .tag-yellow { background: #fdecc8; color: #8f632d; }
+    .tag-red { background: #fde2e2; color: #9b2c2c; }
+    .meta { font-size: 11px; color: #787774; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-card">
+      <input type="text" id="name" placeholder="일정 이름" required />
+      <div class="row">
+        <input type="date" id="date" required />
+        <input type="time" id="time" title="시간 (선택)" />
+      </div>
+      <div class="row">
+        <select id="category">
+          <option value="yellow">yellow</option>
+          <option value="red">red</option>
+        </select>
+        <input type="number" id="order" placeholder="순서" value="0" style="width: 70px;" />
+        <button onclick="addSchedule()" style="flex: 1;">등록</button>
+      </div>
+    </div>
+
+    <div class="header-row">
+      <span style="font-size: 13px; font-weight: bold;">📅 일정 목록</span>
+      <button onclick="fetchSchedules()" style="background: #e9e9e8; color: #37352f; padding: 4px 8px; font-size: 11px;">🔄 새로고침</button>
+    </div>
+
+    <ul class="list" id="scheduleList">
+      <li style="font-size: 12px; color: #888;">불러오는 중...</li>
+    </ul>
+  </div>
+
+  <script>
+    async function fetchSchedules() {
+      const list = document.getElementById('scheduleList');
+      try {
+        const res = await fetch('/api/notion');
+        const data = await res.json();
+        
+        if (!data.results) {
+          list.innerHTML = '<li style="font-size:12px;">데이터를 불러오지 못했습니다.</li>';
+          return;
+        }
+
+        list.innerHTML = '';
+        data.results.forEach(item => {
+          const props = item.properties;
+          const name = props.Name?.title?.[0]?.plain_text || '제목 없음';
+          const dateStart = props.Date?.date?.start || '';
+          const category = props.Category?.select?.name || 'yellow';
+          const order = props.Order?.number ?? '';
+
+          let dateText = '';
+          if (dateStart) {
+            if (dateStart.includes('T')) {
+              const [d, t] = dateStart.split('T');
+              dateText = `${d} ${t.substring(0, 5)}`;
+            } else {
+              dateText = dateStart;
+            }
+          }
+
+          const li = document.createElement('li');
+          li.className = 'item';
+          li.innerHTML = `
+            <div>
+              <strong style="font-size: 13px;">${name}</strong>
+              <span class="tag tag-${category}">${category}</span>
+              <div class="meta">${dateText} | 순서: ${order}</div>
+            </div>
+          `;
+          list.appendChild(li);
+        });
+      } catch (e) {
+        list.innerHTML = '<li style="font-size:12px;">오류가 발생했습니다.</li>';
+      }
+    }
+
+    async function addSchedule() {
+      const name = document.getElementById('name').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const category = document.getElementById('category').value;
+      const order = document.getElementById('order').value;
+
+      if (!name || !date) {
+        alert('이름과 날짜를 입력해주세요.');
+        return;
+      }
+
+      const res = await fetch('/api/notion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, date, time, category, order })
+      });
+
+      if (res.ok) {
+        document.getElementById('name').value = '';
+        document.getElementById('time').value = '';
+        fetchSchedules();
+      } else {
+        alert('등록 실패');
+      }
+    }
+
+    fetchSchedules();
+  </script>
+</body>
+</html>
