@@ -447,11 +447,11 @@
     </div>
   </div>
 
-  <div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
     <div class="img-modal" onclick="event.stopPropagation()">
       <div class="img-modal-header">
         <div class="img-modal-date" id="modalDateText">9/24</div>
-        <button class="img-modal-close" onclick="closeModal()">✕</button>
+        <button class="img-modal-close" onclick="handleAutoSaveAndClose()">✕</button>
       </div>
 
       <div class="input-row">
@@ -492,7 +492,7 @@
     </div>
   </div>
 
-  <div class="modal-backdrop" id="ymModalBackdrop">
+  <div class="modal-backdrop" id="ymModalBackdrop" onclick="closeYmModal()">
     <div class="ym-modal" onclick="event.stopPropagation()">
       <div class="ym-header">
         <div class="ym-year-nav">
@@ -517,9 +517,10 @@
     let selectedColor = '#f87171';
     let selectedGroup = '';
     let editingScheduleId = null;
+    let initialModalSnapshot = null;
 
     let selectedGroupFilter = 'ALL';
-    let schedulesCache = [];
+    let schedulesCache = loadLocalSchedules();
 
     let isDragging = false;
     let dragStartDate = null;
@@ -546,18 +547,24 @@
       return `${y}-${m}-${d}`;
     }
 
+    function loadLocalSchedules() {
+      const stored = localStorage.getItem('clean_cal_schedules');
+      return stored ? JSON.parse(stored) : [];
+    }
+
+    function saveLocalSchedules(schedules) {
+      schedulesCache = schedules;
+      localStorage.setItem('clean_cal_schedules', JSON.stringify(schedules));
+    }
+
     async function fetchSchedulesFromNotion() {
       try {
         const res = await fetch('/api/notion');
+        if (!res.ok) return;
         const data = await res.json();
 
-        if (!res.ok || data.error) {
-          console.error("Notion API 오류:", data.error || data);
-          return;
-        }
-
         if (data.results) {
-          schedulesCache = data.results.map(page => {
+          const notionSchedules = data.results.map(page => {
             const props = page.properties;
             const rawTitle = props.Name?.title?.[0]?.plain_text || '제목 없음';
             const parsed = parseInputText(rawTitle);
@@ -583,11 +590,12 @@
               color: getGroupColor(group)
             };
           });
+
+          saveLocalSchedules(notionSchedules);
+          renderCalendar();
         }
       } catch (e) {
-        console.error("통신 오류:", e);
-      } finally {
-        renderCalendar();
+        console.warn("노션 서버 연동 대기 중 - 로컬 저장 데이터 사용", e);
       }
     }
 
@@ -828,6 +836,43 @@
       fetchSchedulesFromNotion();
     }
 
+    function saveSnapshot() {
+      initialModalSnapshot = {
+        title: document.getElementById('taskTitleInput').value.trim(),
+        group: selectedGroup,
+        color: selectedColor,
+        startDate: selectedStartDateStr,
+        endDate: selectedEndDateStr
+      };
+    }
+
+    function isModalChanged() {
+      if (!initialModalSnapshot) return false;
+      const currentTitle = document.getElementById('taskTitleInput').value.trim();
+      return (
+        currentTitle !== initialModalSnapshot.title ||
+        selectedGroup !== initialModalSnapshot.group ||
+        selectedColor !== initialModalSnapshot.color ||
+        selectedStartDateStr !== initialModalSnapshot.startDate ||
+        selectedEndDateStr !== initialModalSnapshot.endDate
+      );
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target === modalBackdrop) {
+        handleAutoSaveAndClose();
+      }
+    }
+
+    function handleAutoSaveAndClose() {
+      const currentTitle = document.getElementById('taskTitleInput').value.trim();
+      if (isModalChanged() && currentTitle !== '') {
+        saveSchedule();
+      } else {
+        closeModal();
+      }
+    }
+
     function openQuickAddModal(startStr, endStr) {
       editingScheduleId = null;
       selectedStartDateStr = startStr;
@@ -850,6 +895,7 @@
       document.getElementById('btnAdd').innerText = '추가';
 
       toggleAddBtnState();
+      saveSnapshot();
       modalBackdrop.classList.add('active');
       setTimeout(() => input.focus(), 50);
     }
@@ -877,6 +923,7 @@
       document.getElementById('btnAdd').innerText = '수정';
 
       toggleAddBtnState();
+      saveSnapshot();
       modalBackdrop.classList.add('active');
       setTimeout(() => input.focus(), 50);
     }
@@ -884,6 +931,7 @@
     function closeModal() {
       modalBackdrop.classList.remove('active');
       closeGroupDropdown();
+      initialModalSnapshot = null;
     }
 
     function toggleAddBtnState() {
@@ -935,66 +983,74 @@
       if (!rawText || !selectedStartDateStr) return;
 
       const parsed = parseInputText(rawText);
+      const targetId = editingScheduleId || ('local_' + Date.now());
+
+      const newItem = {
+        id: targetId,
+        title: parsed.title,
+        displayTime: parsed.displayTime,
+        startDate: selectedStartDateStr,
+        endDate: selectedEndDateStr,
+        group: selectedGroup,
+        color: selectedColor
+      };
+
+      let currentSchedules = getSchedules();
+      if (editingScheduleId) {
+        currentSchedules = currentSchedules.map(s => s.id === editingScheduleId ? newItem : s);
+      } else {
+        currentSchedules.push(newItem);
+      }
+
+      saveLocalSchedules(currentSchedules);
+      renderCalendar();
+      closeModal();
 
       try {
-        let res;
-        if (editingScheduleId) {
-          res = await fetch('/api/notion', {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: editingScheduleId,
-              title: parsed.title,
-              startDate: selectedStartDateStr,
-              endDate: selectedEndDateStr,
-              displayTime: parsed.displayTime,
-              group: selectedGroup
-            })
-          });
-        } else {
-          res = await fetch('/api/notion', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              title: parsed.title,
-              startDate: selectedStartDateStr,
-              endDate: selectedEndDateStr,
-              displayTime: parsed.displayTime,
-              group: selectedGroup
-            })
-          });
-        }
+        const payload = {
+          id: editingScheduleId,
+          title: parsed.title,
+          startDate: selectedStartDateStr,
+          endDate: selectedEndDateStr,
+          displayTime: parsed.displayTime,
+          group: selectedGroup
+        };
 
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          alert(`일정 저장 실패:\n${data.error || '오류가 발생했습니다.'}`);
-          return;
-        }
+        const res = await fetch('/api/notion', {
+          method: editingScheduleId ? 'PATCH' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-        closeModal();
-        await fetchSchedulesFromNotion();
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.id && !editingScheduleId) {
+            newItem.id = data.id;
+            saveLocalSchedules(getSchedules());
+          }
+        }
       } catch (err) {
-        alert(`저장 중 통신 오류 발생: ${err.message}`);
+        console.warn("노션 연동 요청 실패 - 로컬 저장은 완료됨:", err);
       }
     }
 
     async function deleteCurrentSchedule() {
       if (!editingScheduleId) return;
+
+      const deleteTargetId = editingScheduleId;
+      const updatedSchedules = getSchedules().filter(s => s.id !== deleteTargetId);
+      saveLocalSchedules(updatedSchedules);
+      renderCalendar();
+      closeModal();
+
       try {
-        const res = await fetch('/api/notion', {
+        await fetch('/api/notion', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: editingScheduleId })
+          body: JSON.stringify({ id: deleteTargetId })
         });
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          alert(`일정 삭제 실패:\n${data.error || '오류가 발생했습니다.'}`);
-          return;
-        }
-        closeModal();
-        await fetchSchedulesFromNotion();
       } catch (err) {
-        alert(`삭제 중 통신 오류 발생: ${err.message}`);
+        console.warn("노션 삭제 연동 실패:", err);
       }
     }
 
