@@ -198,7 +198,7 @@
 
     .day-cell {
       background: var(--color-white);
-      border: none;
+      border: 1px solid #f1f5f9;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -553,43 +553,41 @@
 
         if (!res.ok || data.error) {
           console.error("Notion API 오류:", data.error || data);
-          alert(`노션 연동 오류:\n${data.error || '데이터를 불러오지 못했습니다.'}\n\n[체크리스트]\n1. Vercel 환경변수(NOTION_KEY, NOTION_DATABASE_ID) 설정 후 Redeploy 하셨나요?\n2. 노션 DB 속성이 Name(제목), Date(날짜), Category(선택) 인가요?`);
           return;
         }
 
-        if (!data.results) return;
+        if (data.results) {
+          schedulesCache = data.results.map(page => {
+            const props = page.properties;
+            const rawTitle = props.Name?.title?.[0]?.plain_text || '제목 없음';
+            const parsed = parseInputText(rawTitle);
 
-        schedulesCache = data.results.map(page => {
-          const props = page.properties;
-          const rawTitle = props.Name?.title?.[0]?.plain_text || '제목 없음';
-          const parsed = parseInputText(rawTitle);
+            const dateProp = props.Date?.date;
+            let startDate = '';
+            let endDate = '';
+            if (dateProp) {
+              if (dateProp.start) startDate = dateProp.start.split('T')[0];
+              if (dateProp.end) endDate = dateProp.end.split('T')[0];
+              else endDate = startDate;
+            }
 
-          const dateProp = props.Date?.date;
-          let startDate = '';
-          let endDate = '';
-          if (dateProp) {
-            if (dateProp.start) startDate = dateProp.start.split('T')[0];
-            if (dateProp.end) endDate = dateProp.end.split('T')[0];
-            else endDate = startDate;
-          }
+            const group = props.Category?.select?.name || '';
 
-          const group = props.Category?.select?.name || '';
-
-          return {
-            id: page.id,
-            title: parsed.title,
-            displayTime: parsed.displayTime,
-            startDate: startDate,
-            endDate: endDate,
-            group: group,
-            color: getGroupColor(group)
-          };
-        });
-
-        renderCalendar();
+            return {
+              id: page.id,
+              title: parsed.title,
+              displayTime: parsed.displayTime,
+              startDate: startDate,
+              endDate: endDate,
+              group: group,
+              color: getGroupColor(group)
+            };
+          });
+        }
       } catch (e) {
         console.error("통신 오류:", e);
-        alert(`네트워크 통신 오류: ${e.message}`);
+      } finally {
+        renderCalendar();
       }
     }
 
@@ -826,6 +824,7 @@
       currentMonth += delta;
       if (currentMonth < 0) { currentMonth = 11; currentYear--; }
       else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
       fetchSchedulesFromNotion();
     }
 
@@ -1134,6 +1133,7 @@
         btn.onclick = () => {
           currentYear = pickerYear;
           currentMonth = m;
+          renderCalendar();
           fetchSchedulesFromNotion();
           closeYmModal();
         };
@@ -1141,6 +1141,7 @@
       }
     }
 
+    renderCalendar();
     fetchSchedulesFromNotion();
   </script>
 </body>
