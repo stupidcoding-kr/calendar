@@ -40,7 +40,6 @@
       height: 100%;
       background-color: var(--color-card-bg);
       padding: 8px;
-  
       display: flex;
       box-sizing: border-box;
     }
@@ -117,7 +116,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       z-index: 200;
-      min-width: 120px;
+      min-width: 130px;
       padding: 4px 0;
     }
 
@@ -133,6 +132,7 @@
       white-space: nowrap;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 6px;
     }
 
@@ -373,6 +373,46 @@
       cursor: pointer;
     }
 
+    select.custom-select-btn {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394A3B8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 8px;
+      padding-right: 20px;
+      outline: none;
+    }
+
+    .custom-days-row {
+      display: none;
+      gap: 4px;
+      justify-content: space-between;
+    }
+
+    .day-toggle-btn {
+      flex: 1;
+      padding: 4px 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+
+    .day-toggle-btn:hover { background: #f1f5f9; color: #334155; }
+    .day-toggle-btn.selected {
+      background: #7dd3fc;
+      color: #ffffff;
+      border-color: #38bdf8;
+      font-weight: 700;
+    }
+
     .custom-dropdown {
       display: none;
       position: absolute;
@@ -397,9 +437,9 @@
     .group-del-btn:hover { color: #f87171; }
 
     .group-add-option { padding: 8px 10px; font-size: 12px; color: #475569; font-weight: 600; cursor: pointer; border-top: 1px solid #f1f5f9; text-align: center; }
-    .group-inline-input-box { display: none; padding: 6px 8px; border-top: 1px solid #f1f5f9; background: #ffffff; gap: 6px; align-items: center; }
-    .group-inline-input { flex: 1; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 6px; font-size: 11.5px; outline: none; }
-    .group-inline-btn { background: #e2e8f0; border: none; border-radius: 4px; color: #475569; font-size: 11px; font-weight: 700; padding: 4px 8px; cursor: pointer; }
+    .group-inline-input-box { display: none; padding: 6px 6px; border-top: 1px solid #f1f5f9; background: #ffffff; gap: 4px; align-items: center; }
+    .group-inline-input { flex: 1; min-width: 0; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 6px; font-size: 11.5px; outline: none; }
+    .group-inline-btn { background: #e2e8f0; border: none; border-radius: 4px; color: #475569; font-size: 11px; font-weight: 700; padding: 4px 6px; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
 
     .img-modal-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
     .btn-delete-text { background: none; border: none; color: #f87171; font-size: 13px; font-weight: 600; cursor: pointer; display: none; }
@@ -485,6 +525,33 @@
         </div>
       </div>
 
+      <div class="modal-select-row">
+        <div class="group-label-box">
+          <span>일정 반복</span>
+        </div>
+        <div class="custom-select-wrapper">
+          <select id="repeatTypeSelect" class="custom-select-btn" onchange="handleRepeatTypeChange(this.value)">
+            <option value="NONE">일정 반복 없음</option>
+            <option value="EVERY_DAY">매일</option>
+            <option value="WEEKDAY">평일</option>
+            <option value="EVERY_WEEK">매주</option>
+            <option value="EVERY_MONTH">매월</option>
+            <option value="EVERY_YEAR">매년</option>
+            <option value="CUSTOM_DAYS">요일 선택</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="custom-days-row" id="customDaysRow">
+        <button type="button" class="day-toggle-btn" data-day="1" onclick="toggleRepeatDay(this, 1)">월</button>
+        <button type="button" class="day-toggle-btn" data-day="2" onclick="toggleRepeatDay(this, 2)">화</button>
+        <button type="button" class="day-toggle-btn" data-day="3" onclick="toggleRepeatDay(this, 3)">수</button>
+        <button type="button" class="day-toggle-btn" data-day="4" onclick="toggleRepeatDay(this, 4)">목</button>
+        <button type="button" class="day-toggle-btn" data-day="5" onclick="toggleRepeatDay(this, 5)">금</button>
+        <button type="button" class="day-toggle-btn" data-day="6" onclick="toggleRepeatDay(this, 6)">토</button>
+        <button type="button" class="day-toggle-btn" data-day="0" onclick="toggleRepeatDay(this, 0)">일</button>
+      </div>
+
       <div class="img-modal-footer">
         <button class="btn-delete-text" id="btnDelete" onclick="deleteCurrentSchedule()">삭제</button>
         <button class="btn-add-text" id="btnAdd" onclick="saveSchedule()">추가</button>
@@ -516,6 +583,9 @@
     let selectedEndDateStr = null;
     let selectedColor = '#f87171';
     let selectedGroup = '';
+    let selectedRepeatType = 'NONE';
+    let selectedRepeatDays = [];
+
     let editingScheduleId = null;
     let initialModalSnapshot = null;
 
@@ -579,6 +649,11 @@
             }
 
             const group = props.Category?.select?.name || '';
+            const repeatType = props.RepeatType?.select?.name || 'NONE';
+            let repeatDays = [];
+            if (props.RepeatDays?.multi_select) {
+              repeatDays = props.RepeatDays.multi_select.map(item => parseInt(item.name, 10)).filter(n => !isNaN(n));
+            }
 
             return {
               id: page.id,
@@ -587,7 +662,9 @@
               startDate: startDate,
               endDate: endDate,
               group: group,
-              color: getGroupColor(group)
+              color: getGroupColor(group),
+              repeatType: repeatType,
+              repeatDays: repeatDays
             };
           });
 
@@ -654,6 +731,38 @@
       renderCalendar();
     }
 
+    function isScheduleOnDate(s, dateStr) {
+      if (!s.startDate) return false;
+      if (dateStr < s.startDate) return false;
+
+      const repeatType = s.repeatType || 'NONE';
+
+      if (repeatType === 'NONE') {
+        return dateStr >= s.startDate && dateStr <= (s.endDate || s.startDate);
+      }
+
+      const d = new Date(dateStr + 'T00:00:00');
+      const start = new Date(s.startDate + 'T00:00:00');
+      const dayOfWeek = d.getDay();
+
+      switch (repeatType) {
+        case 'EVERY_DAY':
+          return true;
+        case 'WEEKDAY':
+          return dayOfWeek >= 1 && dayOfWeek <= 5;
+        case 'EVERY_WEEK':
+          return dayOfWeek === start.getDay();
+        case 'EVERY_MONTH':
+          return d.getDate() === start.getDate();
+        case 'EVERY_YEAR':
+          return d.getMonth() === start.getMonth() && d.getDate() === start.getDate();
+        case 'CUSTOM_DAYS':
+          return Array.isArray(s.repeatDays) && s.repeatDays.includes(dayOfWeek);
+        default:
+          return dateStr >= s.startDate && dateStr <= (s.endDate || s.startDate);
+      }
+    }
+
     function renderCalendar(overrideFilter = null) {
       calendarGrid.innerHTML = '';
       document.getElementById('monthTitle').innerText = `${currentYear}년 ${currentMonth + 1}월`;
@@ -708,12 +817,13 @@
         const eventsBox = document.createElement('div');
         eventsBox.className = 'events-wrapper';
 
-        let dayEvents = schedules.filter(s => dateStr >= s.startDate && dateStr <= (s.endDate || s.startDate));
+        let dayEvents = schedules.filter(s => isScheduleOnDate(s, dateStr));
         if (activeFilter !== 'ALL') dayEvents = dayEvents.filter(s => s.group === activeFilter);
 
         dayEvents.forEach(s => {
           const chip = document.createElement('div');
-          const isMultiDay = s.endDate && s.endDate !== s.startDate;
+          const isRepeating = s.repeatType && s.repeatType !== 'NONE';
+          const isMultiDay = !isRepeating && s.endDate && s.endDate !== s.startDate;
           const isStart = dateStr === s.startDate;
           const isEnd = dateStr === s.endDate;
 
@@ -732,7 +842,7 @@
             chip.classList.add('single-day');
           }
 
-          if (isStart || !isMultiDay) {
+          if (isStart || !isMultiDay || isRepeating) {
             let groupBadge = (activeFilter !== 'ALL' && s.group) ? `<span class="event-group-badge">${s.group}</span>` : '';
             let timeBadge = s.displayTime ? `<span class="event-time-badge">${s.displayTime}</span>` : '';
             chip.innerHTML = `${groupBadge}<span>${s.title}</span>${timeBadge}`;
@@ -772,11 +882,35 @@
         const item = document.createElement('div');
         item.className = 'group-dropdown-item' + (selectedGroupFilter === gName ? ' selected' : '');
         const gColor = getGroupColor(gName);
-        item.innerHTML = `<span class="group-circle-icon" style="background-color: ${gColor};"></span><span>${gName}</span>`;
+
+        const leftBox = document.createElement('div');
+        leftBox.style.display = 'flex';
+        leftBox.style.alignItems = 'center';
+        leftBox.style.gap = '6px';
+        leftBox.style.flex = '1';
+        leftBox.style.overflow = 'hidden';
+
+        const circle = document.createElement('span');
+        circle.className = 'group-circle-icon';
+        circle.style.backgroundColor = gColor;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'group-name-label';
+        nameSpan.innerText = gName;
+        nameSpan.style.whiteSpace = 'nowrap';
+        nameSpan.style.overflow = 'hidden';
+        nameSpan.style.textOverflow = 'ellipsis';
+
+        leftBox.appendChild(circle);
+        leftBox.appendChild(nameSpan);
+
+        item.appendChild(leftBox);
+
         item.onmouseenter = () => {
           document.getElementById('groupFilterBtn').innerText = gName;
           renderCalendar(gName);
         };
+
         item.onclick = (e) => {
           e.stopPropagation();
           selectedGroupFilter = gName;
@@ -784,8 +918,55 @@
           renderCalendar();
           if (dropdown) dropdown.classList.add('closed');
         };
+
         list.appendChild(item);
       });
+    }
+
+    function renameGroup(oldName, newName) {
+      newName = newName.trim();
+      if (!newName || newName === oldName) return;
+
+      let groups = getCustomGroups();
+      if (groups.includes(newName)) {
+        alert('이미 존재하는 그룹 이름입니다.');
+        return;
+      }
+
+      groups = groups.map(g => g === oldName ? newName : g);
+      saveCustomGroups(groups);
+
+      let colors = getGroupColors();
+      if (colors[oldName]) {
+        colors[newName] = colors[oldName];
+        delete colors[oldName];
+        saveGroupColors(colors);
+      }
+
+      let schedules = getSchedules();
+      let updated = false;
+      schedules.forEach(s => {
+        if (s.group === oldName) {
+          s.group = newName;
+          updated = true;
+        }
+      });
+      if (updated) {
+        saveLocalSchedules(schedules);
+      }
+
+      if (selectedGroupFilter === oldName) {
+        selectedGroupFilter = newName;
+        document.getElementById('groupFilterBtn').innerText = newName;
+      }
+      if (selectedGroup === oldName) {
+        selectedGroup = newName;
+        updateGroupSelectUI();
+      }
+
+      renderCalendar();
+      buildGroupHoverList();
+      renderGroupOptions();
     }
 
     function handleMouseDown(dateStr) {
@@ -836,13 +1017,48 @@
       fetchSchedulesFromNotion();
     }
 
+    function handleRepeatTypeChange(val) {
+      selectedRepeatType = val;
+      const daysRow = document.getElementById('customDaysRow');
+      if (val === 'CUSTOM_DAYS') {
+        daysRow.style.display = 'flex';
+        updateRepeatDaysUI();
+      } else {
+        daysRow.style.display = 'none';
+      }
+    }
+
+    function toggleRepeatDay(btn, dayNum) {
+      const idx = selectedRepeatDays.indexOf(dayNum);
+      if (idx > -1) {
+        selectedRepeatDays.splice(idx, 1);
+      } else {
+        selectedRepeatDays.push(dayNum);
+      }
+      updateRepeatDaysUI();
+    }
+
+    function updateRepeatDaysUI() {
+      const buttons = document.querySelectorAll('#customDaysRow .day-toggle-btn');
+      buttons.forEach(btn => {
+        const d = parseInt(btn.dataset.day, 10);
+        if (selectedRepeatDays.includes(d)) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+    }
+
     function saveSnapshot() {
       initialModalSnapshot = {
         title: document.getElementById('taskTitleInput').value.trim(),
         group: selectedGroup,
         color: selectedColor,
         startDate: selectedStartDateStr,
-        endDate: selectedEndDateStr
+        endDate: selectedEndDateStr,
+        repeatType: selectedRepeatType,
+        repeatDays: JSON.stringify(selectedRepeatDays)
       };
     }
 
@@ -854,7 +1070,9 @@
         selectedGroup !== initialModalSnapshot.group ||
         selectedColor !== initialModalSnapshot.color ||
         selectedStartDateStr !== initialModalSnapshot.startDate ||
-        selectedEndDateStr !== initialModalSnapshot.endDate
+        selectedEndDateStr !== initialModalSnapshot.endDate ||
+        selectedRepeatType !== initialModalSnapshot.repeatType ||
+        JSON.stringify(selectedRepeatDays) !== initialModalSnapshot.repeatDays
       );
     }
 
@@ -887,6 +1105,11 @@
       selectedGroup = '';
       updateGroupSelectUI();
 
+      selectedRepeatType = 'NONE';
+      selectedRepeatDays = [];
+      document.getElementById('repeatTypeSelect').value = 'NONE';
+      handleRepeatTypeChange('NONE');
+
       selectedColor = '#f87171';
       document.getElementById('colorPickerVisualBtn').style.backgroundColor = selectedColor;
       document.getElementById('customColorInput').value = selectedColor;
@@ -915,6 +1138,11 @@
       selectedGroup = schedule.group || '';
       selectedColor = schedule.color || getGroupColor(selectedGroup);
       updateGroupSelectUI();
+
+      selectedRepeatType = schedule.repeatType || 'NONE';
+      selectedRepeatDays = Array.isArray(schedule.repeatDays) ? [...schedule.repeatDays] : [];
+      document.getElementById('repeatTypeSelect').value = selectedRepeatType;
+      handleRepeatTypeChange(selectedRepeatType);
 
       document.getElementById('colorPickerVisualBtn').style.backgroundColor = selectedColor;
       document.getElementById('customColorInput').value = selectedColor;
@@ -963,7 +1191,6 @@
       let title = text.trim();
       let displayTime = '';
 
-      // 1. 연속 시간(시간 범위) 패턴 인식 (예: 12-17, 13~17, 12-5pm, 12-17시, 12시-17시, 오후 12-5시, 12:00-17:00 등)
       const rangeRegex = /(?:(오전|아침|오후|저녁|밤)\s*)?(\d{1,2})(?::(\d{2}))?\s*(시|am|pm)?\s*[-~~～—–]\s*(?:(오전|아침|오후|저녁|밤)\s*)?(\d{1,2})(?::(\d{2}))?\s*(시|am|pm)?/i;
       const rangeMatch = title.match(rangeRegex);
 
@@ -990,7 +1217,6 @@
           const endIsPm = (endPeriod === '오후' || endPeriod === '저녁' || endPeriod === '밤' || endUnit === 'pm');
           const endIsAm = (endPeriod === '오전' || endPeriod === '아침' || endUnit === 'am');
 
-          // 종료 시간 24시간제 변환
           if (endIsPm) {
             if (end24 < 12) end24 += 12;
           } else if (endIsAm) {
@@ -1005,7 +1231,6 @@
             }
           }
 
-          // 시작 시간 24시간제 변환
           if (startIsPm) {
             if (start24 < 12) start24 += 12;
           } else if (startIsAm) {
@@ -1020,7 +1245,6 @@
             }
           }
 
-          // 12시간제 변환 및 am/pm 지정
           const startAmPm = start24 >= 12 ? 'pm' : 'am';
           const start12 = start24 % 12 === 0 ? 12 : start24 % 12;
 
@@ -1037,7 +1261,6 @@
         }
       }
 
-      // 2. 단일 시간 패턴 인식 (연속 시간이 아닌 경우)
       if (!displayTime) {
         const singleRegex = /(?:(오전|아침|오후|저녁|밤)\s*)?(\d{1,2})(?::(\d{2}))?\s*(시|am|pm)/i;
         const singleMatch = title.match(singleRegex);
@@ -1077,7 +1300,9 @@
         startDate: selectedStartDateStr,
         endDate: selectedEndDateStr,
         group: selectedGroup,
-        color: selectedColor
+        color: selectedColor,
+        repeatType: selectedRepeatType,
+        repeatDays: selectedRepeatDays
       };
 
       let currentSchedules = getSchedules();
@@ -1098,7 +1323,9 @@
           startDate: selectedStartDateStr,
           endDate: selectedEndDateStr,
           displayTime: parsed.displayTime,
-          group: selectedGroup
+          group: selectedGroup,
+          repeatType: selectedRepeatType,
+          repeatDays: selectedRepeatDays
         };
 
         const res = await fetch('/api/notion', {
@@ -1184,14 +1411,117 @@
         const item = document.createElement('div');
         item.className = 'group-option-item';
         const gColor = getGroupColor(gName);
-        item.innerHTML = `
-          <span class="group-circle-icon" style="background-color: ${gColor};"></span>
-          <span class="group-name-label">${gName}</span>
-          <button type="button" class="group-del-btn" onclick="deleteGroup(event, '${gName}')">✕</button>
-        `;
+
+        const leftBox = document.createElement('div');
+        leftBox.style.display = 'flex';
+        leftBox.style.alignItems = 'center';
+        leftBox.style.gap = '6px';
+        leftBox.style.flex = '1';
+        leftBox.style.overflow = 'hidden';
+
+        const circle = document.createElement('span');
+        circle.className = 'group-circle-icon';
+        circle.style.backgroundColor = gColor;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'group-name-label';
+        nameSpan.innerText = gName;
+
+        leftBox.appendChild(circle);
+        leftBox.appendChild(nameSpan);
+
+        const actionBox = document.createElement('div');
+        actionBox.style.display = 'flex';
+        actionBox.style.alignItems = 'center';
+        actionBox.style.gap = '2px';
+
+        const editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'group-del-btn';
+        editBtn.innerText = '✎';
+        editBtn.title = '그룹명 수정';
+        editBtn.onclick = (e) => {
+          e.stopPropagation();
+          startEditGroup(leftBox, nameSpan, actionBox, gName);
+        };
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'group-del-btn';
+        delBtn.innerText = '✕';
+        delBtn.title = '그룹 삭제';
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteGroup(e, gName);
+        };
+
+        actionBox.appendChild(editBtn);
+        actionBox.appendChild(delBtn);
+
+        item.appendChild(leftBox);
+        item.appendChild(actionBox);
+
         item.onclick = (e) => { e.stopPropagation(); onSelectGroup(gName); };
+
+        item.ondblclick = (e) => {
+          e.stopPropagation();
+          startEditGroup(leftBox, nameSpan, actionBox, gName);
+        };
+
         optionList.appendChild(item);
       });
+    }
+
+    function startEditGroup(leftBox, nameSpan, actionBox, gName) {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = gName;
+      input.style.width = '100%';
+      input.style.fontSize = '11.5px';
+      input.style.padding = '2px 4px';
+      input.style.border = '1px solid #cbd5e1';
+      input.style.borderRadius = '4px';
+      input.style.outline = 'none';
+
+      leftBox.replaceChild(input, nameSpan);
+      if (actionBox) actionBox.style.display = 'none';
+      input.focus();
+      input.select();
+
+      let isCommitted = false;
+      const commitEdit = () => {
+        if (isCommitted) return;
+        isCommitted = true;
+        const val = input.value.trim();
+        if (val && val !== gName) {
+          renameGroup(gName, val);
+        } else {
+          if (leftBox.contains(input)) {
+            leftBox.replaceChild(nameSpan, input);
+          }
+          if (actionBox) actionBox.style.display = 'flex';
+        }
+      };
+
+      input.onkeydown = (eEvt) => {
+        if (eEvt.key === 'Enter') {
+          eEvt.preventDefault();
+          commitEdit();
+        } else if (eEvt.key === 'Escape') {
+          isCommitted = true;
+          if (leftBox.contains(input)) {
+            leftBox.replaceChild(nameSpan, input);
+          }
+          if (actionBox) actionBox.style.display = 'flex';
+        }
+      };
+
+      input.onblur = () => {
+        commitEdit();
+      };
+
+      input.onclick = (eEvt) => eEvt.stopPropagation();
+      input.ondblclick = (eEvt) => eEvt.stopPropagation();
     }
 
     function showInlineInput(e) {
@@ -1233,7 +1563,7 @@
     }
 
     function deleteGroup(e, gName) {
-      e.stopPropagation();
+      if (e) e.stopPropagation();
       let groups = getCustomGroups().filter(g => g !== gName);
       saveCustomGroups(groups);
 
@@ -1249,6 +1579,7 @@
         selectedGroupFilter = 'ALL';
         document.getElementById('groupFilterBtn').innerText = 'Group';
       }
+      buildGroupHoverList();
       renderGroupOptions();
       renderCalendar();
     }
