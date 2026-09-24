@@ -962,19 +962,104 @@
     function parseInputText(text) {
       let title = text.trim();
       let displayTime = '';
-      const timeRegex = /(오전|아침|오후|저녁|밤)?\s*(\d{1,2})\s*시/;
-      const timeMatch = title.match(timeRegex);
-      if (timeMatch) {
-        let period = timeMatch[1] || '';
-        let hour = parseInt(timeMatch[2], 10);
-        let isPm = (period === '오후' || period === '저녁' || period === '밤');
-        if (isPm && hour < 12) hour += 12;
-        if ((period === '오전' || period === '아침') && hour === 12) hour = 0;
-        const ampmStr = hour >= 12 ? 'pm' : 'am';
-        const displayHour = hour % 12 === 0 ? 12 : hour % 12;
-        displayTime = `${displayHour}${ampmStr}`;
-        title = title.replace(timeRegex, '').trim();
+
+      // 1. 연속 시간(시간 범위) 패턴 인식 (예: 12-17, 13~17, 12-5pm, 12-17시, 12시-17시, 오후 12-5시, 12:00-17:00 등)
+      const rangeRegex = /(?:(오전|아침|오후|저녁|밤)\s*)?(\d{1,2})(?::(\d{2}))?\s*(시|am|pm)?\s*[-~~～—–]\s*(?:(오전|아침|오후|저녁|밤)\s*)?(\d{1,2})(?::(\d{2}))?\s*(시|am|pm)?/i;
+      const rangeMatch = title.match(rangeRegex);
+
+      if (rangeMatch) {
+        const fullMatch = rangeMatch[0];
+        const startPeriod = rangeMatch[1] || '';
+        const startHour = parseInt(rangeMatch[2], 10);
+        const startMin = rangeMatch[3] ? `:${rangeMatch[3]}` : '';
+        const startUnit = (rangeMatch[4] || '').toLowerCase();
+
+        const endPeriod = rangeMatch[5] || '';
+        const endHour = parseInt(rangeMatch[6], 10);
+        const endMin = rangeMatch[7] ? `:${rangeMatch[7]}` : '';
+        const endUnit = (rangeMatch[8] || '').toLowerCase();
+
+        const hasIndicator = startPeriod || endPeriod || startUnit || endUnit || rangeMatch[3] || rangeMatch[7];
+
+        if (hasIndicator || (startHour >= 0 && startHour <= 24 && endHour >= 0 && endHour <= 24)) {
+          let start24 = startHour;
+          let end24 = endHour;
+
+          const startIsPm = (startPeriod === '오후' || startPeriod === '저녁' || startPeriod === '밤' || startUnit === 'pm');
+          const startIsAm = (startPeriod === '오전' || startPeriod === '아침' || startUnit === 'am');
+          const endIsPm = (endPeriod === '오후' || endPeriod === '저녁' || endPeriod === '밤' || endUnit === 'pm');
+          const endIsAm = (endPeriod === '오전' || endPeriod === '아침' || endUnit === 'am');
+
+          // 종료 시간 24시간제 변환
+          if (endIsPm) {
+            if (end24 < 12) end24 += 12;
+          } else if (endIsAm) {
+            if (end24 === 12) end24 = 0;
+          } else if (end24 < 12) {
+            if (startIsPm || startHour >= 12) {
+              end24 += 12;
+            } else if (endHour < startHour && endHour <= 7) {
+              end24 += 12;
+            } else if (!startIsAm && startHour >= 1 && startHour <= 6 && endHour <= 7) {
+              end24 += 12;
+            }
+          }
+
+          // 시작 시간 24시간제 변환
+          if (startIsPm) {
+            if (start24 < 12) start24 += 12;
+          } else if (startIsAm) {
+            if (start24 === 12) start24 = 0;
+          } else if (start24 < 12) {
+            if (end24 >= 12) {
+              if (startHour >= 1 && startHour <= 7 && (startHour <= (end24 % 12 || 12) || startHour + 12 < end24)) {
+                start24 += 12;
+              }
+            } else if (!endIsAm && startHour >= 1 && startHour <= 6 && endHour <= 7) {
+              start24 += 12;
+            }
+          }
+
+          // 12시간제 변환 및 am/pm 지정
+          const startAmPm = start24 >= 12 ? 'pm' : 'am';
+          const start12 = start24 % 12 === 0 ? 12 : start24 % 12;
+
+          const endAmPm = end24 >= 12 ? 'pm' : 'am';
+          const end12 = end24 % 12 === 0 ? 12 : end24 % 12;
+
+          if (startAmPm === endAmPm) {
+            displayTime = `${start12}${startMin}-${end12}${endMin}${endAmPm}`;
+          } else {
+            displayTime = `${start12}${startMin}${startAmPm}-${end12}${endMin}${endAmPm}`;
+          }
+
+          title = title.replace(fullMatch, '').trim();
+        }
       }
+
+      // 2. 단일 시간 패턴 인식 (연속 시간이 아닌 경우)
+      if (!displayTime) {
+        const singleRegex = /(?:(오전|아침|오후|저녁|밤)\s*)?(\d{1,2})(?::(\d{2}))?\s*(시|am|pm)/i;
+        const singleMatch = title.match(singleRegex);
+        if (singleMatch) {
+          const fullMatch = singleMatch[0];
+          let period = singleMatch[1] || '';
+          let hour = parseInt(singleMatch[2], 10);
+          let min = singleMatch[3] ? `:${singleMatch[3]}` : '';
+          let unit = (singleMatch[4] || '').toLowerCase();
+
+          let isPm = (period === '오후' || period === '저녁' || period === '밤' || unit === 'pm');
+          if (isPm && hour < 12) hour += 12;
+          if ((period === '오전' || period === '아침' || unit === 'am') && hour === 12) hour = 0;
+
+          const ampmStr = hour >= 12 ? 'pm' : 'am';
+          const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+          displayTime = `${displayHour}${min}${ampmStr}`;
+
+          title = title.replace(fullMatch, '').trim();
+        }
+      }
+
       return { title: title || text, displayTime };
     }
 
